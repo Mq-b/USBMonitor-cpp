@@ -9,9 +9,10 @@
 #include <mutex>
 #include <chrono>
 #include <functional>
+#include <string>
 #include <iostream>
 
-using namespace std::chrono_literals;
+using namespace std::chrono_literals;  // NOLINT(clang-diagnostic-header-hygiene)
 
 enum UsbState {
     Removed,    // U盘拔出
@@ -21,7 +22,7 @@ enum UsbState {
 
 class USBMonitor {
 public:
-    explicit USBMonitor(const std::function<void(UsbState,std::string)>& state);
+    explicit USBMonitor(std::function<void(UsbState, std::string)> state);
     ~USBMonitor();
     void startMonitoring();
 

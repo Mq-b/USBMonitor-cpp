@@ -1,7 +1,7 @@
 #include "USBMonitor.h"
 
-USBMonitor::USBMonitor(const std::function<void(UsbState,std::string)>& state)
-    : USBstate{state} {}
+USBMonitor::USBMonitor(std::function<void(UsbState, std::string)> state)
+    : USBstate{std::move(state)} {}
 
 USBMonitor::~USBMonitor() {
     stop = true;
