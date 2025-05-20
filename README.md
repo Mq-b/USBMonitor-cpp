@@ -4,6 +4,11 @@
 
 它十分的简单，通过开启一个线程时刻监控 Linux 中外部存储设备默认挂载路径来发送信号。
 
+而 windows 中，它使用了一个 Windows API `GetDriveTypeA` 来获取当前所有驱动器进行监控。
+
+> [!NOTE]
+> `USBMonitor-cpp` 是一个**纯头文件库**，你只需要将 include 文件夹的内容复制到自己项目目录即可使用。
+
 ## 构建
 
 ```shell
@@ -15,9 +20,15 @@ cmake ..
 cmake --build . -j
 ```
 
+会在 `build` 目录下生成编译好的 `example` 可执行文件。
+
 在 Ubuntu22.04 中使用 GCC11、GCC12 测试无误。
 
-如果需要如 wsl 之类的需要显式挂载外部存储设备进行测试，则可以这样：
+在 windows 使用 visual studio 17 测试无误。
+
+---
+
+如果需要如 wsl 之类的无桌面的 Linux 系统需要显式挂载外部存储设备进行测试，则可以这样：
 
 ```shell
 # 挂载外部存储这个 E 是 windows 中盘符
@@ -37,4 +48,4 @@ USB Update Ready: /media/A/E
 USB Removed: /media/A/E
 ```
 
-如果是完整的带 UI 的系统会自动处理挂载和卸载。
+如果是完整的带桌面的系统会自动处理挂载和卸载。
