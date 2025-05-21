@@ -28,7 +28,7 @@ cmake --build . -j
 
 在 windows 使用 visual studio 17 测试无误。
 
-![win-qt-demo](./image/win-qt-demo.png)
+![win-qt-demo](./image/win-Qt-demo.png)
 
 ---
 
