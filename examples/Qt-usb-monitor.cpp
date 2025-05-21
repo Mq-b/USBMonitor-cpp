@@ -9,11 +9,9 @@ public:
     UsbWatcher() {
         monitor_ = std::make_unique<USBMonitor>(
             [this](UsbState s, std::string p) {
-                QMetaObject::invokeMethod(
-                    this, "usbEvent", Qt::QueuedConnection,
-                    Q_ARG(int, static_cast<int>(s)),
-                    Q_ARG(QString, QString::fromStdString(p)));
-            });
+                emit usbEvent(s, QString::fromStdString(p));
+            }
+        );
         monitor_->startMonitoring();
     }
 
