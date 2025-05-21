@@ -38,3 +38,5 @@
 /out
 
 CMakeSettings.json
+CMakeUserPresets.json
+CMakePresets.json

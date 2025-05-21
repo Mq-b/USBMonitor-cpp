@@ -22,7 +22,9 @@ cmake --build . -j
 
 会在 `build` 目录下生成编译好的 `example` 可执行文件。
 
-在 Ubuntu22.04 中使用 GCC11、GCC12 测试无误。
+在 Ubuntu22.04 中使用 GCC11、GCC12、GCC13 测试无误。
+
+![linux-qt-demo](./image/Linux-Qt-demo.png)
 
 在 windows 使用 visual studio 17 测试无误。
 
