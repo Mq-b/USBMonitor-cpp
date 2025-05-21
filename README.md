@@ -28,6 +28,8 @@ cmake --build . -j
 
 在 windows 使用 visual studio 17 测试无误。
 
+![win-qt-demo](./image/win-qt-demo.png)
+
 ---
 
 如果需要如 wsl 之类的无桌面的 Linux 系统需要显式挂载外部存储设备进行测试，则可以这样：

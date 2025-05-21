@@ -32,8 +32,7 @@ int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false);
     UsbWatcher watcher;
-    QObject::connect(&watcher, &UsbWatcher::usbEvent,
-        &watcher, &UsbWatcher::onUsbEvent);
+    QObject::connect(&watcher, &UsbWatcher::usbEvent, &watcher, &UsbWatcher::onUsbEvent, Qt::QueuedConnection);
     return app.exec();
 }
 
