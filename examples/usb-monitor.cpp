@@ -15,5 +15,5 @@ int main(){
         }
     });
     monitor.startMonitoring();
-    std::this_thread::sleep_for(1h);
+    std::cin.get();
 }

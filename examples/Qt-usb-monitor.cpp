@@ -1,37 +1,40 @@
 #include <USBMonitor.h>
-#include <QMessageBox>
 #include <QApplication>
+#include <QObject>
+#include <QMessageBox>
 
-/*
-* 用于测试 USBMonitor 类的 Qt 示例
-* 该示例演示了如何使用 USBMonitor 类来监视 USB 设备的插入和拔出
-* 并在设备插入和拔出时显示消息框
-*
-* 你也可以选择 emit 发送信号来与 Qt 的 UI 进行通信。
-* 这对 QML 程序来说也是有效的。
-*/
-
-
-int main(int argc, char *argv[]) {
-    QApplication app(argc, argv);
-
-    USBMonitor monitor([](UsbState state, std::string path){
-        switch (state) {
-            case UsbState::Removed:
-                QMessageBox::information(nullptr, "USB Removed", QString::fromStdString(path));
-                break;
-            case UsbState::Inserted:
-                QMessageBox::information(nullptr, "USB Inserted", QString::fromStdString(path));
-                break;
-            case UsbState::UpdateReady:
-                QMessageBox::information(nullptr, "USB UpdateReady", QString::fromStdString(path));
-                break;
-        }
-    });
-
-    monitor.startMonitoring();
-
-    while (true) {
-        app.processEvents();
+class UsbWatcher : public QObject {
+    Q_OBJECT
+public:
+    UsbWatcher() {
+        monitor_ = std::make_unique<USBMonitor>(
+            [this](UsbState s, std::string p) {
+                emit usbEvent(s, QString::fromStdString(p));
+            }
+        );
+        monitor_->startMonitoring();
     }
+
+signals:
+    void usbEvent(int state, const QString& path);
+
+public slots:
+    void onUsbEvent(int state, const QString& path) {
+        static const char* name[] = { "USB Removed", "USB Inserted", "USB Update Ready" };
+        QMessageBox::information(nullptr, name[state], path);
+    }
+
+private:
+    std::unique_ptr<USBMonitor> monitor_;
+};
+
+int main(int argc, char* argv[]) {
+    QApplication app(argc, argv);
+    app.setQuitOnLastWindowClosed(false);
+    UsbWatcher watcher;
+    QObject::connect(&watcher, &UsbWatcher::usbEvent,
+        &watcher, &UsbWatcher::onUsbEvent);
+    return app.exec();
 }
+
+#include "Qt-usb-monitor.moc"
