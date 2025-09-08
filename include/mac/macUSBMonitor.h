@@ -3,7 +3,7 @@
 #define kIOBSDNameKey "BSD Name"
 
 #include <functional>
-// #include <iostream>
+#include <iostream>
 #include <string>
 #include <atomic>
 #include <thread>
