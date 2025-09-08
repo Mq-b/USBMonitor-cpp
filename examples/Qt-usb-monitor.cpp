@@ -9,7 +9,7 @@ public:
     UsbWatcher() {
         monitor_ = std::make_unique<USBMonitor>(
             [this](UsbState s, std::string p) {
-                emit usbEvent(s, QString::fromStdString(p));
+                emit usbEvent(static_cast<int>(s), QString::fromStdString(p));
             }
         );
         monitor_->startMonitoring();
