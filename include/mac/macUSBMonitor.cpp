@@ -29,6 +29,7 @@ void USBMonitor::monitorVolumes() {
         std::set<std::string> newVolumes;
         std::error_code ec;
         for (const auto& entry : fs::directory_iterator("/Volumes", ec)) {
+            if (entry.is_symlink(ec)) continue; // 跳过软链接（如 Macintosh HD）
             if (entry.is_directory(ec)) {
                 newVolumes.insert(entry.path().string());
             }
