@@ -1,18 +1,10 @@
 #pragma once
 
-#define kIOBSDNameKey "BSD Name"
-
 #include <functional>
 #include <iostream>
 #include <string>
 #include <atomic>
 #include <thread>
-
-#ifdef __APPLE__
-#include <IOKit/IOKitLib.h>
-#include <IOKit/usb/IOUSBLib.h>
-#include <CoreFoundation/CoreFoundation.h>
-#endif
 
 enum class UsbState {
     Removed,
