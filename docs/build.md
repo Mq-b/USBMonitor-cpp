@@ -57,3 +57,23 @@ example-Qt-usb-monitor  example-usb-monitor
 ## Windows
 
 在 Windows 中使用 Visual Studio 17 工具链测试无误。
+
+## macOS
+
+macOS 14中如下环境测试无误。
+
+
+```
+❯ clang++ -v
+Homebrew clang version 20.1.8
+Target: arm64-apple-darwin23.0.0
+Thread model: posix
+InstalledDir: /opt/homebrew/Cellar/llvm/20.1.8/bin
+Configuration file: /opt/homebrew/etc/clang/arm64-apple-darwin23.cfg
+System configuration file directory: /opt/homebrew/etc/clang
+User configuration file directory: ~/.config/clang
+❯ cmake --version
+cmake version 4.1.0
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+```
