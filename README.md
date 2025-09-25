@@ -6,6 +6,11 @@
 
 而 windows 中，它使用了一个 Windows API `GetDriveTypeA` 来获取当前所有驱动器进行监控。
 
+macOS 下，U 盘等外部存储设备插入后会自动挂载到 `/Volumes/<设备名>` 目录。这里通过定时轮询 `/Volumes` 目录，记录当前所有挂载点。每次轮询时，检测新出现的挂载点（即插入事件），和消失的挂载点（即拔出事件）。插入时会进一步判断 `/Volumes/<设备名>/update` 文件夹是否存在且不为空，若满足则判定为“更新盘”。
+
+这种方式无需依赖底层 IOKit 或 BSD 设备名。
+
+
 > [!NOTE]
 > `USBMonitor-cpp` 是一个**纯头文件库**，你只需要将 include 文件夹的内容复制到自己项目目录即可使用。
 
@@ -29,6 +34,29 @@ cmake --build . -j
 在 windows 使用 visual studio 17 测试无误。
 
 ![win-qt-demo](./image/win-Qt-demo.png)
+
+
+macOS 14 环境：
+
+```
+❯ clang++ -v
+Homebrew clang version 20.1.8
+Target: arm64-apple-darwin23.0.0
+Thread model: posix
+InstalledDir: /opt/homebrew/Cellar/llvm/20.1.8/bin
+Configuration file: /opt/homebrew/etc/clang/arm64-apple-darwin23.cfg
+System configuration file directory: /opt/homebrew/etc/clang
+User configuration file directory: ~/.config/clang
+❯ cmake --version
+cmake version 4.1.0
+
+CMake suite maintained and supported by Kitware (kitware.com/cmake).
+```
+
+
+macOS 监控逻辑采用轮询 `/Volumes` 目录，插拔 U 盘时会自动提示挂载点变化。
+
+![macOS-Qt-demo](./image/macOS-Qt-demo.png)
 
 ---
 
