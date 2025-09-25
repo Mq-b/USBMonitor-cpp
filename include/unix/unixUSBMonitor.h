@@ -92,8 +92,10 @@ private:
         // 检查新 USB 路径并发出插入信号
         for (const auto& usbPath : newUSBPaths) {
             if (std::lock_guard lc{ m }; currentUSBPaths.insert(usbPath).second) { // 如果是新路径，则插入并发送信号
-                while (!isUSBMounted(usbPath)) {
-                    std::this_thread::sleep_for(300ms); // 延时300毫秒
+                for(int i = 0; i < 5; i++){
+                    if(isUSBMounted(usbPath))
+                        break;
+                    std::this_thread::sleep_for(300ms);
                 }
 
                 bool is_update = isDirectoryNotEmpty(usbPath + "/update");
