@@ -44,11 +44,23 @@ public:
         }
         return false;
     }
+    static std::string escapePath(const std::string& path) {
+        std::string result = path;
+        size_t pos = 0;
+        while ((pos = result.find(" ", pos)) != std::string::npos) {
+            result.replace(pos, 1, "\\040");
+            pos += 4; // 跳过替换后的 "\040"
+        }
+        return result;
+    }
+
     static bool isUSBMounted(const std::string& path) {
+        std::string escapedPath = escapePath(path);
+
         std::ifstream mounts("/proc/mounts");
         std::string line;
         while (std::getline(mounts, line)) {
-            if (line.find(path) != std::string::npos) {
+            if (line.find(escapedPath) != std::string::npos) {
                 return true;
             }
         }
@@ -80,7 +92,6 @@ private:
         // 检查新 USB 路径并发出插入信号
         for (const auto& usbPath : newUSBPaths) {
             if (std::lock_guard lc{ m }; currentUSBPaths.insert(usbPath).second) { // 如果是新路径，则插入并发送信号
-
                 while (!isUSBMounted(usbPath)) {
                     std::this_thread::sleep_for(300ms); // 延时300毫秒
                 }
