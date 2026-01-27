@@ -1,18 +1,20 @@
-#include <USBMonitor.h>
+#include <usb_monitor.h>
 #include <QApplication>
 #include <QObject>
 #include <QMessageBox>
+
+using namespace usb_monitor;
 
 class UsbWatcher : public QObject {
     Q_OBJECT
 public:
     UsbWatcher() {
         monitor_ = std::make_unique<USBMonitor>(
-            [this](UsbState s, std::string p) {
-                emit usbEvent(s, QString::fromStdString(p));
+            [this](UsbState s, std::string_view p) {
+                emit usbEvent(static_cast<int>(s), QString::fromStdString(std::string(p)));
             }
         );
-        monitor_->startMonitoring();
+        monitor_->start();
     }
 
 signals:

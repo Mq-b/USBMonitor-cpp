@@ -36,6 +36,7 @@
 /.vs
 /.cache
 /out
+/.claude
 
 CMakeSettings.json
 CMakeUserPresets.json
